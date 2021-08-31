@@ -7,32 +7,28 @@
 using namespace cv;
 using namespace std;
 
-
+string XML_PATH = "haarcascade_frontalcatface.xml";
 
 void main() {
     VideoCapture cap(0);
     Mat img;
     
-    CascadeClassifier plateCascade;
-    plateCascade.load("C:/Users/Lenovo/Desktop/opencvtest/haarcascade_russian_plate_number.xml");
+    CascadeClassifier catCascade;
+    catCascade.load(XML_PATH);
 
-    if(plateCascade.empty()) {cout << "XML file not loaded" << endl;}
-
-    vector<Rect> plates;
-
+    if(catCascade.empty()) {cout << "XML file not loaded" << endl;}
+    vector<Rect> cats;
 
     while(true){
         cap.read(img);
-        plateCascade.detectMultiScale(img,plates,1.1,10);
-        for (int i=0;i<plates.size();i++)
+        catCascade.detectMultiScale(img,cats,1.1,10);
+        for (int i=0;i<cats.size();i++)
         {
-            Mat imgCrop = img(plates[i]);
-            //imshow(to_string(i),imgCrop);
-            imwrite("C:/Users/Lenovo/Desktop/opencvtest/Plates/" + to_string(i)+".png",imgCrop);
-            rectangle(img,plates[i].tl(),plates[i].br(), Scalar(255,0,255), 3);
+            Mat imgCrop = img(cats[i]);
+            //imwrite("/cats/" + to_string(i)+".png",imgCrop);
+            rectangle(img,cats[i].tl(),cats[i].br(), Scalar(255,0,255), 3);
         }
         imshow("Image", img);
         waitKey(1);
     }
-    
 }
